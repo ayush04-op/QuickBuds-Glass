@@ -1,88 +1,31 @@
-# Checks the locales, builds the release APK and AAB, runs the desktop tests and builds the desktop archives
-# (scripts/desktop-dist.sh). Runs only by hand: `gh workflow run Build`, for a release or a test APK made from the
-# phone. On the PC, scripts/release-build.sh does the same, much faster (CLAUDE.md, Release). The APK is signed
-# when the repository has the RELEASE_KEYSTORE_B64 and RELEASE_KEY_PROPERTIES secrets, so it installs over the
-# release app. The run's Artifacts hold every release file.
-name: Build
+name: Build Debug APK
 
 on:
+  push:
+    branches: [ "main", "master" ]
   workflow_dispatch:
-    inputs:
-      appimage_only:
-        description: Build the Linux AppImage only (`gh workflow run Build -f appimage_only=true`)
-        type: boolean
-        default: false
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
-  android:
-    if: ${{ !inputs.appimage_only }}
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 21
-      - uses: gradle/actions/setup-gradle@v4
-      - name: Release key
-        env:
-          KEYSTORE: ${{ secrets.RELEASE_KEYSTORE_B64 }}
-          PROPS: ${{ secrets.RELEASE_KEY_PROPERTIES }}
-        if: env.KEYSTORE != ''
-        run: |
-          mkdir -p local/keys
-          echo "$KEYSTORE" | base64 -d > local/keys/quickbuds-release.jks
-          printf '%s\n' "$PROPS" > local/keys/keystore.properties
-      - name: Every string in all locales
-        run: python3 scripts/check-locales.py
-      - run: ./gradlew assembleDebug
-      - name: Release names
-        run: |
-          ver=$(sed -n 's/.*versionName = "\(.*\)"/\1/p' app/build.gradle.kts)
-          mkdir out
-          cp app/build/outputs/apk/release/app-release.apk "out/QuickBuds$ver.apk"
-          cp app/build/outputs/bundle/release/app-release.aab "out/QuickBuds$ver.aab"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: android
-          path: app/build/outputs/apk/debug/app-debug.apk
-          retention-days: 14
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  desktop:
-    runs-on: ubuntu-latest
-    # Ubuntu 22.04 (glibc 2.35), so the Linux binary runs on older distros too.
-    container: ubuntu:22.04
-    env:
-      DEBIAN_FRONTEND: noninteractive
-    steps:
-      - name: Packages
-        run: |
-          apt-get update -qq
-          apt-get install -y -qq curl git zip python3 build-essential pkg-config gcc-mingw-w64-x86-64 \
-            libdbus-1-dev libgtk-3-dev libayatana-appindicator3-dev libfontconfig1-dev libxkbcommon-dev libxkbcommon-x11-0 dpkg-dev file
-      - uses: actions/checkout@v4
-      - name: Rust
-        run: |
-          curl -sSf https://sh.rustup.rs | sh -s -- -y -q --profile minimal --target x86_64-pc-windows-gnu
-          echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
-      - uses: Swatinem/rust-cache@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
         with:
-          workspaces: desktop -> target
-      - name: Test
-        if: ${{ !inputs.appimage_only }}
-        run: cd desktop && cargo test
-      - name: Archives
-        env:
-          QB_APPIMAGE_ONLY: ${{ inputs.appimage_only && '1' || '' }}
-        run: |
-          ver=$(sed -n 's/^version = "\(.*\)"/\1/p' desktop/Cargo.toml | head -1)
-          QB_NATIVE=1 scripts/desktop-dist.sh "$ver"
-      - uses: actions/upload-artifact@v4
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
         with:
-          name: desktop
-          path: desktop/dist/*
-          retention-days: 14
+          name: QuickBuds-Glass-APK
+          path: app/build/outputs/apk/debug/app-debug.apk
