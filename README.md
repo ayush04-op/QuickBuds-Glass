@@ -10,169 +10,22 @@
 [![Release](https://img.shields.io/github/v/release/spizganed/QuickBuds)](https://github.com/spizganed/QuickBuds/releases/latest)
 [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/spizganed)
 
-QuickBuds does everything the vendor app does for your earbuds, in a fast, clean app: on the phone,
-with real home screen widgets, and on the PC, with a tray icon. One release has both.
+# QuickBuds Glass
 
-QuickBuds is purely a passion and hobby project. If you like it and want to help out, feel free to
-donate on [Ko-fi](https://ko-fi.com/spizganed).
-
-## Screenshots
-
-| Phone | PC |
-| :---: | :---: |
-| <img src="docs/images/phone.png" width="220"> | <img src="docs/images/desktop.png" width="560"> |
-
-| Widget: battery | Widget: noise control | Tray: Windows | Tray: Linux |
-| :---: | :---: | :---: | :---: |
-| <img src="docs/images/widget-battery.png" width="180"> | <img src="docs/images/widget-controls.png" width="180"> | <img src="docs/images/tray-windows.png" width="300"> | <img src="docs/images/tray-linux.png" width="240"> |
+An enhanced version of the open-source **QuickBuds** Android application featuring a custom **Liquid Glass UI**, updated build workflows, and side-by-side installation support.
 
 ## Features
+* **Liquid Glass UI**: Modern, sleek translucent design elements integrated into the app interface.
+* **Side-by-Side Installation**: Modified package configuration allowing it to be installed alongside the original QuickBuds application.
+* **Automated CI/CD**: Streamlined GitHub Actions workflows configured with JDK 21 for reliable building of debug and release APKs.
 
-- **Knows your earbuds:** reads the model from the earbuds and matches it against HeyMelody's and realme
-  Link's lists of OnePlus, OPPO and realme models, then shows only what that model supports. You can also
-  pick the model yourself.
-- **Battery and wear status** for each bud and the case, live.
-- **Noise control:** Off, Noise cancelling (Low / Medium / High / Smart), Adaptive and Transparency. Changes
-  made on the earbuds show up instantly.
-- **Equalizer:** built-in presets, up to 3 custom presets you draw on a curve, and bass boost.
-  Saved on the earbuds.
-- **High-quality audio (LHDC), 3D audio and Low latency mode.**
-- **Hearing profile:** a hearing test (ear scan, then 6 tones per ear) that tunes the sound to your
-  ears, run in the app. Profiles are kept in the app, one tap applies one, and a graph per ear shows
-  what it does. Profiles made in HeyMelody show up too.
-- **Earbud fit test:** checks that the ear tips seal well.
-- **Gestures** per bud: taps, slide and hold, plus the on-call gestures.
-- **Wear detection**, **Dual connection**, **Find my earbuds**, the earbuds' prompt volume and their
-  firmware version.
-- **Whatever else your model has:** 3D audio with head tracking, game sound effects, vocal enhancement,
-  smart / adaptive volume, power saving and more, each shown only where the earbuds support it.
-- **Home screen widgets** (Android), in your theme's colours: battery, controls, or both on two pages
-  (2×2 or 4×2; a double tap switches the page). You pick up to 4 controls: noise modes, Low latency,
-  wind noise.
-- **Tray icon** (PC): on Windows it opens quick controls, on Linux its menu shows the battery.
-- **Two styles:** Classic, or a dot-matrix look (a dot font, no cards, dot-matrix graphics).
-- **Themes:** OLED Black, Classic Dark and White, or match the system's light / dark setting. Your own
-  accent colour and up to 3 custom colour presets. Reorder or hide the home screen rows.
-- **27 languages**, switchable inside the app.
-- **Updates** from inside the app, straight from GitHub releases. The PC app updates itself.
-- **With Dual connection on**, the phone app and the PC app work at the same time.
+## Build Setup
+The project uses Gradle and requires **JDK 21** for compilation[span_0](start_span)[span_0](end_span). 
 
-## Install
-
-Pair your earbuds in the system's Bluetooth settings first. QuickBuds connects to paired earbuds; it
-does not pair them. Every file is in the [latest release](https://github.com/spizganed/QuickBuds/releases/latest).
-
-- **Android 8+:** install `QuickBuds<version>.apk` and allow the Bluetooth permission when asked.
-- **Windows 10 / 11:** unzip `QuickBuds<version>-windows-x64.zip` and run `quickbuds.exe`. It is portable:
-  no installer, no drivers, no background services.
-- **Linux:** run this command. It downloads the AppImage to your home folder and starts it. The AppImage
-  holds every library it needs, so it runs on any distro with BlueZ. It updates itself.
-  ```sh
-  curl -fLo ~/QuickBuds.AppImage https://github.com/spizganed/QuickBuds/releases/latest/download/QuickBuds-linux-x64.AppImage && chmod +x ~/QuickBuds.AppImage && ~/QuickBuds.AppImage
-  ```
-  If it says FUSE is missing, install `fuse3` from your distro. The tarball
-  `QuickBuds<version>-linux-x64.tar.gz` is the alternative: it needs BlueZ, GTK 3 and libayatana-appindicator,
-  and its README has the rest.
-
-> **Got the APK somewhere else?** The only official downloads are the GitHub releases. A copy from
-> another site is genuine only if it is signed with this certificate (SHA-256), which
-> `apksigner verify --print-certs <apk>` shows:
-> `9ae0ea888079cbd86af5a24391cd351af4a81fc04ebe9bd8429074c736249f61`
-
-## Supported earbuds
-
-QuickBuds works on **any Android 8+ phone** (Samsung, Google Pixel, Xiaomi, Nothing, Motorola, OnePlus…),
-not only on OnePlus / OPPO phones. It knows every earbud in HeyMelody's and realme Link's lists, 127 in
-all, and shows only the features each one has.
-
-<details open><summary><b>Confirmed</b> (3 models)</summary>
-
-<details><summary><b>OnePlus</b> (1)</summary>
-
-- **OnePlus Buds 4**: fully working. Every feature tested on a Nothing Phone (3a), Android 16, and on Windows and Linux.
-
-</details>
-
-<details><summary><b>OPPO</b> (1)</summary>
-
-- **OPPO Enco Buds2**: confirmed by its owner on Windows: connection, equalizer, battery.
-
-</details>
-
-<details><summary><b>realme</b> (1)</summary>
-
-- **realme Buds Air7 Pro**: confirmed by its owner on Android and Windows: noise control, gestures, 3D audio.
-
-</details>
-
-</details>
-
-<details><summary><b>Not confirmed yet</b> (124 models)</summary>
-
-Detected, with features built from HeyMelody's and realme Link's data. Some may not work.
-
-<details><summary><b>OnePlus</b> (28 models)</summary>
-
-OnePlus Bullets Wireless Z2, OnePlus Bullets Wireless Z2 ANC, OnePlus Bullets Wireless Z3, OnePlus Buds, OnePlus Buds Z, OnePlus Buds Pro, OnePlus Buds Z2, OnePlus Nord Buds, OnePlus Buds N, OnePlus Nord Buds CE, OnePlus Buds Pro 2, OnePlus Nord Buds 2, OnePlus Buds Ace, OnePlus Nord Buds 2r, OnePlus Buds Pro 2R, OnePlus Buds 3, OnePlus Buds Pro 3, OnePlus Nord Buds 3 Pro, OnePlus Buds V, OnePlus Buds Ace 2, OnePlus Nord Buds 3, OnePlus Nord Buds 3r, OnePlus Open Buds, OnePlus Buds 3V, OnePlus Buds Ace 3, OnePlus Nord Buds 4 Pro, OnePlus Nord Buds 4, OnePlus Flow Buds.
-
-</details>
-
-<details><summary><b>OPPO</b> (51 models)</summary>
-
-OPPO Enco Quiet, OPPO Enco M31, OPPO Enco M32, OPPO Enco M33, OPPO Enco Free, OPPO O-Free, OPPO Enco W31, OPPO Enco W51, OPPO Enco W11, OPPO Enco X, OPPO Enco Air, OPPO Enco Play, OPPO Enco Free2, OPPO Enco Buds, OPPO Enco Air Lite, OPPO Enco W31 Lite, OPPO Enco R, OPPO Enco Air2, OPPO Enco Air2 Pro, OPPO Enco X2, OPPO Enco Free2i, OPPO Enco Air2i, OPPO Enco Air3, OPPO Enco R Pro, OPPO Enco R2, OPPO Enco Air3 Pro, OPPO Enco Free3, OPPO Enco X3i, OPPO Enco Air3i, OPPO Enco X3, OPPO Enco Air3s, OPPO Enco Air4 Pro, OPPO Enco Buds2 Pro, OPPO Enco R3, OPPO Enco Air 3i, OPPO Enco Free4, OPPO Enco Air4, OPPO Enco Air4i, OPPO Enco R3 Pro, OPPO Enco Buds3 Pro+, OPPO Enco Buds3, OPPO Enco Buds3 Pro, OPPO Enco R4, OPPO Enco R5, OPPO Enco Clip, OPPO Enco X3s, OPPO Enco Air5 Pro, OPPO Enco Air5s, OPPO Enco Air5, OPPO Enco Clip2, OPPO Enco Air4s.
-
-</details>
-
-<details><summary><b>realme</b> (42 models)</summary>
-
-realme Buds Wireless 2S, realme Buds Wireless 3, realme Buds Wireless 3 Neo, realme Buds Wireless 5 ANC, realme Buds Wireless 6 Neo, realme Buds Wireless 6, realme Buds Wireless 6 ANC, realme Buds Air 3, realme Buds Q2s, realme Buds Air 3S, realme Buds T100, realme Buds Air 3 Neo, realme Buds Air 5 Pro, realme Buds Air 5, realme Buds T300, realme Buds T110, realme Buds Air6 Pro, realme Buds Air6, realme Buds N1 Pro, realme Buds T310, realme Buds N1, realme Buds T01, realme Buds Air7, realme Buds T200 Lite, realme Buds T200, realme Buds T200x, realme Buds Clip, realme TechLife Buds, realme Buds T500 Pro, realme Buds Air8, realme Buds Air8 Pro, realme Buds T500, realme Buds T500 Pro Harry Potter Edition, realme Buds Air 2 Neo, realme Buds Air, realme Buds Q2, realme Buds Air Pro, realme Buds Air 2, realme Buds Wireless 2, realme Buds Wireless 2 Neo, realme Buds Wireless Pro, realme Buds Air Neo.
-
-</details>
-
-<details><summary><b>DIZO</b> (3 models)</summary>
-
-DIZO Wireless, DIZO GoPods D, DIZO GoPods.
-
-</details>
-
-</details>
-
-**Own other buds? Please tell us what works.** In the app, Settings › Test my earbuds (desktop: App
-settings) reconnects the buds, lets you mark each feature, and sends the result with the log. The app
-offers this test once, after the first connect to a model that is not confirmed. Settings › Report a
-problem sends a description and the log, without a GitHub account. Or open an
-[issue](https://github.com/spizganed/QuickBuds/issues); [CONTRIBUTING.md](./docs/CONTRIBUTING.md#reporting-a-model)
-says what to include. Each report lets the next release fix that model.
-
-## For developers
-
-- [CONTRIBUTING.md](./docs/CONTRIBUTING.md): build, tests, translations, where things are, and the rules.
-- [PACKET-CAPTURE.md](./docs/PACKET-CAPTURE.md): capturing the earbuds' traffic, HeyMelody's included.
-- [PROTOCOL.md](./docs/PROTOCOL.md): the wire format, every claim tagged with its source.
-- [ROADMAP.md](./docs/ROADMAP.md): the plan, and the features decided against.
-
-Everything to build and release QuickBuds is in this repository, except the signing key. If the
-project stops, anyone can fork it and publish their own signed build.
-
-## Credits
-
-The earbud protocol was never publicly documented. QuickBuds stands on the people who worked it out
-first; PROTOCOL.md marks every fact taken from them `[OSS]`.
-
-- [**Zhaoyi-ya/OppoPodsManager**](https://github.com/Zhaoyi-ya/OppoPodsManager): the main
-  reference. Frame layout and length encoding, most of the command table, the noise control tables,
-  the gesture entry shape and the feature IDs.
-- [**Star-ZER0/Pods-Protocol-Reverse-Engineering**](https://github.com/Star-ZER0/Pods-Protocol-Reverse-Engineering)
-  (CC-BY-SA-4.0, used as documentation): independent confirmation of the framing, and the broadcast
-  codes that proved the noise control subscription fix.
-- [Leaf-lsgtky/OppoPods](https://github.com/Leaf-lsgtky/OppoPods): early protocol work and part of
-  the framing knowledge.
-- [Zhaoyi-ya/OPPO-Pods-Win](https://github.com/Zhaoyi-ya/OPPO-Pods-Win): which features each earbud
-  model has.
-- [ORION2809/DevPods](https://github.com/ORION2809/DevPods): a second implementation to cross-check
-  against.
-
-Everything else was captured on real hardware and tested on the device: the gesture values, the
+To build the debug APK locally:
+```bash
+./gradlew assembleDebug
+ hardware and tested on the device: the gesture values, the
 equalizer writes, the hold's noise control cycle and more (see PROTOCOL.md).
 
 The desktop app is built with [Slint](https://slint.dev) (used under the GPLv3) and
