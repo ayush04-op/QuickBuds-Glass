@@ -31,8 +31,11 @@ jobs:
       - name: Show build errors
         if: failure()
         run: |
-          grep -E "^e: |error:|FAILURE:|What went wrong|Execution failed|> " build.log | head -30 \
-            | while IFS= read -r line; do echo "::error::${line}"; done
+          msg=$(grep -E "^e: |^w: .*(error)|error:|FAILURE:|What went wrong|Execution failed|Caused by|AAPT|aapt2|\.xml:[0-9]+" -A4 build.log | grep -v "^> Task" | head -40 | cut -c1-300)
+          msg="${msg//'%'/'%25'}"
+          msg="${msg//$'\n'/'%0A'}"
+          msg="${msg//$'\r'/'%0D'}"
+          echo "::error title=Gradle build error::${msg}"
 
       - name: Upload build log
         if: failure()
