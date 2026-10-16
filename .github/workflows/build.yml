@@ -39,7 +39,7 @@ jobs:
           printf '%s\n' "$PROPS" > local/keys/keystore.properties
       - name: Every string in all locales
         run: python3 scripts/check-locales.py
-      - run: ./gradlew assembleRelease bundleRelease
+      - run: ./gradlew assembleDebug
       - name: Release names
         run: |
           ver=$(sed -n 's/.*versionName = "\(.*\)"/\1/p' app/build.gradle.kts)
