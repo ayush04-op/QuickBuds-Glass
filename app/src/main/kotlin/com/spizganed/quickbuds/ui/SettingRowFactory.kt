@@ -268,6 +268,18 @@ object SettingRowFactory {
             background = DotArt.Part(context, 0f, DotArt.PITCH_DP, android.content.res.ColorStateList.valueOf(outline)) { c, b, p -> c.drawRect(b, p) }
             return@apply
         }
+        if (ThemeRes.glass(context)) {
+            // Liquid Glass: a faint hairline that starts under the text (past the 16dp padding, the 24dp icon and its
+            // 14dp gap) and stops at the row's right padding, so the rows read as one pane of glass.
+            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1).apply {
+                marginStart = ThemeRes.dp(context, 54f)
+                marginEnd = ThemeRes.dp(context, 16f)
+            }
+            setBackgroundColor(android.graphics.Color.argb(if (ThemeRes.palette(context).isLight) 36 else 44,
+                if (ThemeRes.palette(context).isLight) 0 else 255, if (ThemeRes.palette(context).isLight) 0 else 255,
+                if (ThemeRes.palette(context).isLight) 0 else 255))
+            return@apply
+        }
         layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ThemeRes.dp(context, 1f))
         setBackgroundColor(outline)
     }

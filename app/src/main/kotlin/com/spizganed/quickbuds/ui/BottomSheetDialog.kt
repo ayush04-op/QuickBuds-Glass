@@ -264,7 +264,15 @@ class BottomSheetDialog(private val activity: Activity) {
             // A light dim: the sheet is a chooser over content the user is still
             // looking at (the ANC circles, the gesture list), not a modal that
             // should blank the screen.
-            w.setDimAmount(0.45f)
+            w.setDimAmount(if (ThemeRes.glass(activity)) 0.25f else 0.45f)
+            // Liquid Glass: the system blurs what is behind the sheet (Android 12+, when the device allows it).
+            if (ThemeRes.glass(activity) && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                @Suppress("DEPRECATION")
+                w.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND)
+                val lp = w.attributes
+                lp.blurBehindRadius = 48
+                w.attributes = lp
+            }
             w.setLayout(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.WRAP_CONTENT

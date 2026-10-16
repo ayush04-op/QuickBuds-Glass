@@ -449,7 +449,7 @@ object ThemeRes {
     }
 
     /** Icon button / framed control: `card` fill, `outline` stroke, 14dp radius (SPEC section 2). */
-    fun iconButton(context: Context, radiusDp: Float = 14f): Drawable = card(context, if (material(context)) FULL else radiusDp)
+    fun iconButton(context: Context, radiusDp: Float = 14f): Drawable = card(context, if (material(context) || glass(context)) FULL else radiusDp)
 
     /** Material style: a list's outer and inner corners, and a selected list item's corners (M3 expressive list). */
     const val LIST_OUTER = 16f
@@ -510,11 +510,15 @@ object ThemeRes {
     fun screenPadding(view: View, sideDp: Float = 16f, vertDp: Float = 16f) {
         val side = dp(view.context, sideDp)
         val vert = dp(view.context, vertDp)
+        // The side and vertical padding apply at once; the system bars are added when the window insets
+        // arrive. Without this a screen could sit edge to edge until the insets reached it.
+        view.setPadding(side, vert, side, vert)
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(side + bars.left, vert + bars.top, side + bars.right, vert + bars.bottom)
             insets
         }
+        view.requestApplyInsets()
     }
 
     /** Small chip button; the active one is an `accent` fill. */
