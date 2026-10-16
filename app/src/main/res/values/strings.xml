@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="Quick Buds Glass" translatable="false">QuickBuds</string>
+    <string name="QuickBudsGlass" translatable="false">QuickBuds</string>
 
     <!-- Device title shown before the buds report their name. -->
     <string name="default_device_name" translatable="false">OnePlus Buds 4</string>
