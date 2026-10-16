@@ -138,7 +138,7 @@ class UpdateActivity : Activity() {
         root.addView(notesCard)
 
         setContentView(ScrollView(this).apply {
-            setBackgroundColor(p.background)
+            ThemeRes.page(this, p.background)
             addView(root)
         })
         check()

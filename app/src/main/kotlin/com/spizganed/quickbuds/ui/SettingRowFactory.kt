@@ -346,7 +346,7 @@ object SettingRowFactory {
      */
     fun screen(context: Context): LinearLayout = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
-        setBackgroundColor(ThemeRes.color(context, R.attr.appColorBg))
+        ThemeRes.page(this, ThemeRes.color(context, R.attr.appColorBg))
         ThemeRes.screenPadding(this)
     }
 

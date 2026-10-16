@@ -77,7 +77,7 @@ class ModelActivity : Activity() {
         }
 
         setContentView(ScrollView(this).apply {
-            setBackgroundColor(ThemeRes.palette(this@ModelActivity).background)
+            ThemeRes.page(this, ThemeRes.palette(this@ModelActivity).background)
             addView(root)
         })
         show()

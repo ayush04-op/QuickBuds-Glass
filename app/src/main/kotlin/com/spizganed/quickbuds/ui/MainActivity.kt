@@ -314,6 +314,8 @@ class MainActivity : Activity(), BudsConnectionManager.Listener {
         setContentView(R.layout.activity_main)
 
         mainLayout = findViewById<LinearLayout>(R.id.mainLayout)
+        // Liquid Glass: the page is transparent, so the window's glass backdrop shows through.
+        if (ThemeRes.glass(this)) mainLayout.setBackgroundColor(android.graphics.Color.TRANSPARENT)
         featureList = findViewById<LinearLayout>(R.id.featureList)
         deviceNameText = findViewById<TextView>(R.id.deviceNameText)
         findViewById<ImageButton>(R.id.btnModel).apply {

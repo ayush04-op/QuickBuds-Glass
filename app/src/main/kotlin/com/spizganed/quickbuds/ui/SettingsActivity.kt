@@ -80,7 +80,7 @@ class SettingsActivity : Activity() {
         )
 
         setContentView(ScrollView(this).apply {
-            setBackgroundColor(ThemeRes.color(this@SettingsActivity, R.attr.appColorBg))
+            ThemeRes.page(this, ThemeRes.color(this@SettingsActivity, R.attr.appColorBg))
             addView(root)
         })
     }

@@ -105,7 +105,7 @@ class ModelTestActivity : Activity(), BudsConnectionManager.Listener {
         root.addView(results)
 
         setContentView(ScrollView(this).apply {
-            setBackgroundColor(p.background)
+            ThemeRes.page(this, p.background)
             addView(root)
         })
         bound = bindService(Intent(this, BudsService::class.java), connection, Context.BIND_AUTO_CREATE)

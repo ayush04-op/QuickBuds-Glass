@@ -42,7 +42,7 @@ class ThemeActivity : Activity() {
         accentOpen = savedInstanceState?.getBoolean(KEY_ACCENT_OPEN) ?: false
         root = SettingRowFactory.screen(this)
         setContentView(ScrollView(this).apply {
-            setBackgroundColor(ThemeRes.color(this@ThemeActivity, R.attr.appColorBg))
+            ThemeRes.page(this, ThemeRes.color(this@ThemeActivity, R.attr.appColorBg))
             addView(root)
         })
     }
@@ -75,11 +75,11 @@ class ThemeActivity : Activity() {
         if (!::selection.isInitialized) selection = SelectionSlider(root, "theme")
         root.addView(SettingRowFactory.title(this, R.string.theme_title))
 
-        // --- Style: Material, QuickBuds (Classic) or Pixel art (dot matrix), for the app and the widgets ---
+        // --- Style: Glass, Material, QuickBuds (Classic) or Pixel art (dot matrix), for the app and the widgets ---
         // Listed in that order; ORDER maps a segment to the stored style index.
-        val order = intArrayOf(2, 0, 1)
+        val order = intArrayOf(3, 2, 0, 1)
         root.addView(SettingRowFactory.sectionLabel(this, R.string.widget_style_title))
-        root.addView(AncSegmentedView(this, listOf(getString(R.string.widget_style_material), getString(R.string.widget_style_classic),
+        root.addView(AncSegmentedView(this, listOf(getString(R.string.widget_style_glass), getString(R.string.widget_style_material), getString(R.string.widget_style_classic),
             getString(R.string.widget_style_nothing))).apply {
             selected = order.indexOf(ThemeRes.style(this@ThemeActivity))
             // Its name, for accessibility and for adb tests that look the control up.

@@ -182,15 +182,15 @@ object PaletteStore {
     @Volatile private var defaultsChecked = false
 
     /**
-     * A new install starts in the Material style, with Match system and wallpaper colours on, so the
-     * app looks like the phone. An install that ever picked a preset keeps its own choices.
+     * A new install starts in the Liquid Glass style, with Match system and wallpaper colours on, so the
+     * glass takes the phone's colours. An install that ever picked a preset keeps its own choices.
      */
     fun defaults(p: android.content.SharedPreferences) {
         if (defaultsChecked) return
         defaultsChecked = true
         if (p.contains(KEY_ACTIVE) || p.contains(KEY_LEGACY) || p.contains(KEY_AUTO)) return
         p.edit().putString(KEY_ACTIVE, OLED).putBoolean(KEY_AUTO, true).putBoolean(KEY_WALLPAPER, true)
-            .putBoolean(ThemeRes.KEY_MATERIAL, true).apply()
+            .putBoolean(ThemeRes.KEY_GLASS, true).apply()
     }
 
     fun builtInIds() = listOf(OLED, DARK, WHITE)

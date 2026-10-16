@@ -46,7 +46,7 @@ class LanguageActivity : Activity() {
         }
         root.addView(card)
         setContentView(ScrollView(this).apply {
-            setBackgroundColor(ThemeRes.palette(this@LanguageActivity).background)
+            ThemeRes.page(this, ThemeRes.palette(this@LanguageActivity).background)
             addView(root)
         })
         show(chosen())

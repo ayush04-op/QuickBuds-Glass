@@ -98,7 +98,7 @@ class PresetEditActivity : Activity() {
         buildColors()
 
         setContentView(ScrollView(this).apply {
-            setBackgroundColor(p.background)
+            ThemeRes.page(this, p.background)
             addView(root)
         })
     }

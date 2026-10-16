@@ -120,7 +120,7 @@ object ThemeRes {
 
     // The language is part of it so a language change below Android 13 rebuilds open screens too.
     // The style too, so a Classic / Nothing change rebuilds open screens.
-    private fun signature(context: Context, p: Palette) = p.id + p.tokens.contentToString() + language(context) + nothing(context) + material(context)
+    private fun signature(context: Context, p: Palette) = p.id + p.tokens.contentToString() + language(context) + nothing(context) + material(context) + glass(context)
 
     private const val KEY_NOTHING = "styleNothing"
 
@@ -136,15 +136,24 @@ object ThemeRes {
      * Material style (M3): tonal cards without outlines, pill buttons, the M3 switch. The widgets keep
      * the Classic layouts with tonal colours. Never true together with [nothing].
      */
-    fun material(context: Context) = !nothing(context) &&
+    fun material(context: Context) = !nothing(context) && !glass(context) &&
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).also { PaletteStore.defaults(it) }.getBoolean(KEY_MATERIAL, false)
 
-    /** The style picker's index: 0 Classic, 1 Dot matrix, 2 Material. */
-    fun style(context: Context) = if (nothing(context)) 1 else if (material(context)) 2 else 0
+    const val KEY_GLASS = "styleGlass"
+
+    /**
+     * Liquid Glass style: translucent cards with a specular rim over a colored backdrop. The widgets
+     * keep the Classic layouts. Never true together with [nothing]; when true, [material] is false.
+     */
+    fun glass(context: Context) = !nothing(context) &&
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).also { PaletteStore.defaults(it) }.getBoolean(KEY_GLASS, false)
+
+    /** The style picker's index: 0 Classic, 1 Dot matrix, 2 Material, 3 Liquid Glass. */
+    fun style(context: Context) = if (nothing(context)) 1 else if (glass(context)) 3 else if (material(context)) 2 else 0
 
     fun setStyle(context: Context, index: Int) {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
-            .putBoolean(KEY_NOTHING, index == 1).putBoolean(KEY_MATERIAL, index == 2).apply()
+            .putBoolean(KEY_NOTHING, index == 1).putBoolean(KEY_MATERIAL, index == 2).putBoolean(KEY_GLASS, index == 3).apply()
         com.spizganed.quickbuds.widget.AncWidgetProvider.refreshAll(context)
     }
 
@@ -232,6 +241,14 @@ object ThemeRes {
             @Suppress("DEPRECATION")
             activity.window.navigationBarColor = p.background
         }
+        // Liquid Glass: the colored backdrop is the window background; the pages above stay transparent.
+        if (glass(activity)) {
+            activity.window.setBackgroundDrawable(com.spizganed.quickbuds.LiquidGlassHelper.backdrop(activity))
+            @Suppress("DEPRECATION")
+            activity.window.statusBarColor = android.graphics.Color.TRANSPARENT
+            @Suppress("DEPRECATION")
+            activity.window.navigationBarColor = android.graphics.Color.TRANSPARENT
+        }
         // Dot matrix: Doto for every text the theme sets (XML and plain code-built TextViews).
         if (nothing(activity)) activity.theme.applyStyle(R.style.ThemeOverlay_App_Nothing, true)
         applied[activity] = signature(activity, p)
@@ -312,6 +329,7 @@ object ThemeRes {
     /** A filled, unoutlined rounded button (dot style: outlined in the fill colour, since a dotted fill hid the label): [shape], dots in the dot style. */
     fun pill(context: Context, fill: Int, radiusDp: Float): Drawable =
         if (nothing(context)) DotArt.Box(context, palette(context).card, fill, radiusDp)
+        else if (glass(context)) com.spizganed.quickbuds.LiquidGlassHelper.drawable(context, radiusDp, tint = fill, tintAlpha = 0.85f)
         else shape(context, fill, null, if (material(context)) FULL else radiusDp)
 
     /** A group of rows or a home tile: the [card], in dots in the dot style (borders back on home). */
@@ -417,6 +435,10 @@ object ThemeRes {
     fun card(context: Context, radiusDp: Float = 24f, fill: Int? = null, solid: Boolean = false, topOnly: Boolean = false, base: Int? = null): Drawable {
         val p = palette(context)
         if (nothing(context)) return DotArt.Box(context, fill ?: p.card, p.outline, radiusDp, topOnly, solid, base)
+        // Liquid Glass: a translucent surface; a custom fill tints the glass; a sheet gets an opaque base.
+        if (glass(context)) return com.spizganed.quickbuds.LiquidGlassHelper.drawable(
+            context, radiusDp, tint = if (fill == null || fill == p.card) null else fill, topOnly = topOnly, base = base
+        )
         // Material: a tonal surface, no outline.
         if (material(context)) return shape(context, if (fill == null || fill == p.card) p.container else fill, null, radiusDp).apply {
             if (topOnly) { val r = dp(context, radiusDp).toFloat(); cornerRadii = floatArrayOf(r, r, r, r, 0f, 0f, 0f, 0f) }
@@ -499,6 +521,9 @@ object ThemeRes {
     fun chip(context: Context, active: Boolean): Drawable {
         val p = palette(context)
         if (nothing(context)) return DotArt.Box(context, p.card, if (active) p.accent else p.outline, 10f)
+        if (glass(context)) return com.spizganed.quickbuds.LiquidGlassHelper.drawable(
+            context, 10f, tint = if (active) p.accent else null, tintAlpha = 0.85f
+        )
         // Material: an M3 filter chip, 8dp corners.
         if (material(context)) return if (active) shape(context, p.accent, null, 8f) else shape(context, p.container, p.outline, 8f)
         return if (active) shape(context, p.accent, null, 10f) else shape(context, p.card, p.outline, 10f)
@@ -517,6 +542,14 @@ object ThemeRes {
         val off = if (nothing(context) && p.isLight) p.textSecondary else p.thumbOff
         return ColorStateList(states, intArrayOf(p.accent, off)) to
             ColorStateList(states, intArrayOf(p.track, p.track))
+    }
+
+    /**
+     * Paints a screen's page color. In Liquid Glass the page stays transparent: the window shows the
+     * glass backdrop ([select] installs it), and an opaque page would hide it.
+     */
+    fun page(view: View, color: Int) {
+        view.setBackgroundColor(if (glass(view.context)) android.graphics.Color.TRANSPARENT else color)
     }
 
     /** dp -> px, for the programmatically built rows. */

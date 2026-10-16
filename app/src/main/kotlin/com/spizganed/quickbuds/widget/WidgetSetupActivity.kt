@@ -43,7 +43,7 @@ class WidgetSetupActivity : Activity() {
         // The buttons, for widgets with a controls page.
         if (QuickBudsWidget.kindOf(this, id) == QuickBudsWidget.Kind.BATTERY_ONLY) {
             if (root.childCount == 1) return finish()
-            setContentView(ScrollView(this).apply { setBackgroundColor(p.background); addView(root) })
+            setContentView(ScrollView(this).apply { ThemeRes.page(this, p.background); addView(root) })
             return
         }
         root.addView(SettingRowFactory.sectionLabel(this, R.string.widget_setup_title))
@@ -73,7 +73,7 @@ class WidgetSetupActivity : Activity() {
         root.addView(card)
         limit(picked.size)
         setContentView(ScrollView(this).apply {
-            setBackgroundColor(p.background)
+            ThemeRes.page(this, p.background)
             addView(root)
         })
     }
