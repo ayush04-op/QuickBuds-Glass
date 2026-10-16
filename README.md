@@ -1,51 +1,29 @@
-# QuickBuds
+# QuickBuds-Glass
 
-> Open-source HeyMelody alternative for Android, Windows and Linux. Control OnePlus / OPPO / realme
-> earbuds over Bluetooth, no root: battery, noise cancellation (ANC), equalizer, hearing profile,
-> gestures, wear detection, fit test, find my earbuds, dual connection, low latency mode, home screen
-> widgets and a tray icon.
+An enhanced, customized fork of the open-source **QuickBuds** Android application featuring a modern **Liquid Glass UI**, designed to provide an immersive and sleek user experience.
 
-[![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](./LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Android%208%2B%20%7C%20Windows%20%7C%20Linux-3DDC84.svg)](#install)
-[![Release](https://img.shields.io/github/v/release/spizganed/QuickBuds)](https://github.com/spizganed/QuickBuds/releases/latest)
-[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/spizganed)
+## Overview
 
-# QuickBuds Glass
-
-An enhanced version of the open-source **QuickBuds** Android application featuring a custom **Liquid Glass UI**, updated build workflows, and side-by-side installation support.
+QuickBuds-Glass is built upon the core architecture of QuickBuds, bringing modern aesthetic enhancements—such as a custom Liquid Glass interface—while maintaining core functionalities and performance. This project leverages automated GitHub Actions workflows for continuous integration and seamless debug APK building.
 
 ## Features
-* **Liquid Glass UI**: Modern, sleek translucent design elements integrated into the app interface.
-* **Side-by-Side Installation**: Modified package configuration allowing it to be installed alongside the original QuickBuds application.
-* **Automated CI/CD**: Streamlined GitHub Actions workflows configured with JDK 21 for reliable building of debug and release APKs.
 
-## Build Setup
-The project uses Gradle and requires **JDK 21** for compilation[span_0](start_span)[span_0](end_span). 
+* **Liquid Glass UI**: Integrates custom visual helpers and styling (`LiquidGlassHelper.kt`) to deliver a translucent, modern UI design language.
+* **Side-by-Side Installation Support**: Configured with custom package renaming capabilities, allowing it to be installed alongside the official release version without conflicts.
+* **Automated CI/CD Workflows**: Streamlined GitHub Actions pipelines configured for JDK 21 to automatically compile, test, and package debug APKs.
 
-To build the debug APK locally:
-```bash
-./gradlew assembleDebug
- hardware and tested on the device: the gesture values, the
-equalizer writes, the hold's noise control cycle and more (see PROTOCOL.md).
+## Tech Stack & Requirements
 
-The desktop app is built with [Slint](https://slint.dev) (used under the GPLv3) and
-[tray-icon](https://github.com/tauri-apps/tray-icon).
+* **Language**: Kotlin & Java
+* **Framework**: Android SDK
+* **Build System**: Gradle
+* **Required JDK**: JDK 21 (as specified in the repository build documentation)
 
-The Pixel art style's font is [Doto](https://github.com/oliverlalan/Doto) (SIL Open Font License 1.1,
-bundled with its license in `app/src/main/assets/Doto-OFL.txt`).
-The Material style's widget font is [Google Sans Flex](https://github.com/googlefonts/googlesans-flex) (SIL Open
-Font License 1.1, a medium and a semibold instance with Latin, Greek and Cyrillic, bundled with its license in
-`app/src/main/assets/GoogleSansFlex-OFL.txt`).
+## Building and Development
 
-## License
+To build the project locally or via custom workflows:
 
-Copyright (C) 2026 spizganed
-
-QuickBuds is free software under the GNU General Public License v3.0 or later, distributed without
-any warranty; see [LICENSE](./LICENSE). The protocol sources above were used as documentation; check
-each one's license before copying text from it.
-
-QuickBuds is an independent project, not affiliated with, endorsed by or sponsored by OnePlus, OPPO,
-realme, HeyTap or any of their affiliates. OnePlus, OPPO, realme, HeyMelody and the earbud model names
-are trademarks of their respective owners and are used here only to say which devices the app works
-with. The protocol was studied only to make these earbuds work with this app.
+1. Clone the repository and check out your fork:
+   ```bash
+   git clone [https://github.com/ayush04-op/QuickBuds-Glass.git](https://github.com/ayush04-op/QuickBuds-Glass.git)
+   cd QuickBuds-Glass
