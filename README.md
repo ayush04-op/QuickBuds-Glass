@@ -3,6 +3,8 @@
 
 An enhanced, customized fork of the open-source **QuickBuds** Android application featuring a modern **Liquid Glass UI**, designed to provide an immersive and sleek user experience.
 
+Credits to the respective owners !!
+
 ## Overview
 
 QuickBuds-Glass is built upon the core architecture of QuickBuds, bringing modern aesthetic enhancements—such as a custom Liquid Glass interface—while maintaining core functionalities and performance. This project leverages automated GitHub Actions workflows for continuous integration and seamless debug APK building.
