@@ -24,6 +24,7 @@ android {
     defaultConfig {
         minSdk = 26
         targetSdk = 37
+        applicationId = "com.spizganed.quickbuds.glass"
 
         // THE ONLY PLACE the version is declared. It used to live on <application> in the manifest,
         // where Android ignores it: every PC build up to 2026-09-23 shipped with NO version, which
