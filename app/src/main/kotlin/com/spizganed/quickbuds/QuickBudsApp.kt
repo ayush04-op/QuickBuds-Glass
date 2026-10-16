@@ -1,4 +1,4 @@
-package com.spizganed.quickbuds
+package com.spizganed.quickbuds.glass
 
 import android.annotation.SuppressLint
 import android.app.Activity
